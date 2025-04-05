@@ -8,15 +8,15 @@ export class ApiService {
   private contacts: Contact[] = [
     {
       id: '1',
-      name: 'Bibbye Gutcher',
-      phone: '885-131-9176',
-      email: 'bgutcher0@smh.com.au',
+      name: 'Swechhita Rimal',
+      phone: '1234567890',
+      email: 'swechhitakoemail24@gmail.com',
     },
     {
       id: '2',
-      name: 'John Smith',
-      phone: '555-123-4567',
-      email: 'john.smith@email.com',
+      name: 'Sarthak Shrestha',
+      phone: '1234567890',
+      email: 'sarthakkoemail@gmail.com',
     },
     {
       id: '3',

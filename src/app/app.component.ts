@@ -35,6 +35,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
       mat-toolbar {
         justify-content: space-between;
+        background-color: #3f51b5 !important;
+        color: white !important;
 
         @include mat.toolbar-overrides(
           (
