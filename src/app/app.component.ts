@@ -21,8 +21,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule,
   ],
   template: `
-    <mat-toolbar
-      >My Contacts
+    <mat-toolbar>
+      <span class="navbar" routerLink="/">Contacts</span>
       <button mat-icon-button routerLink="/add">
         <mat-icon>add_circle</mat-icon>
       </button>
@@ -32,6 +32,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   styles: [
     `
       @use '@angular/material' as mat;
+
+      .navbar {
+        cursor: pointer;
+      }
+
+      mat-icon-button {
+        cursor: pointer;
+      }
 
       mat-toolbar {
         justify-content: space-between;

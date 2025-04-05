@@ -6,7 +6,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'delete-dialog',
   template: `
@@ -18,7 +18,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     </mat-dialog-actions>
   `,
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule, RouterModule],
 })
 export class DeleteDialogComponent {}
 
@@ -30,6 +30,7 @@ export class DeleteDialogComponent {}
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
+    RouterModule,
   ],
   standalone: true,
   template: `
