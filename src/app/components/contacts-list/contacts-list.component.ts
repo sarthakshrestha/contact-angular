@@ -41,6 +41,9 @@ export class DeleteDialogComponent {}
         <p matListItemLine>{{ contact.email }}</p>
         <p matListItemLine>{{ contact.phone }}</p>
         <div matListItemMeta>
+          <button mat-icon-button routerLink="/edit/{{ contact.id }}">
+            <mat-icon>edit</mat-icon>
+          </button>
           <button mat-icon-button (click)="deleteContact(contact.id)">
             <mat-icon>delete</mat-icon>
           </button>
