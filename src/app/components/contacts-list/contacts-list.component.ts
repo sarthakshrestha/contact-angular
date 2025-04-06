@@ -88,9 +88,7 @@ export class ContactsListComponent {
   showError = effect(() => {
     const error = this.contactsResource.error() as Error;
     if (error) {
-      this.snackbar.open(error.message, 'Close', {
-        duration: 3000,
-      });
+      this.snackbar.open(error.message, 'Close', {});
     }
   });
 
