@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'app-add-contact',
   standalone: true,
@@ -13,26 +16,47 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     RouterModule,
+    FormsModule,
+    MatProgressSpinner,
   ],
-  template: ` <h2 class="title">Add Contacts</h2>
-    <form class="center">
+  template: `
+    <h2 class="title">Add Contacts</h2>
+    <form #contactForm="ngForm" class="center" (ngSubmit)="save()">
       <div class="fields">
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <mat-icon matPrefix>person</mat-icon>
-          <input matInput placeholder="Enter name" />
+          <input
+            matInput
+            required
+            minlength="2"
+            placeholder="Enter name"
+            [(ngModel)]="name"
+            name="name"
+            #nameInput="ngModel"
+          />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <mat-icon matPrefix>email</mat-icon>
-          <input matInput placeholder="Enter email" />
+          <input
+            matInput
+            placeholder="Enter email"
+            [(ngModel)]="email"
+            name="email"
+          />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Phone Number</mat-label>
           <mat-icon matPrefix>phone</mat-icon>
-          <input matInput placeholder="Enter phone number" />
+          <input
+            matInput
+            placeholder="Enter phone number"
+            [(ngModel)]="phone"
+            name="phone"
+          />
         </mat-form-field>
       </div>
 
@@ -40,7 +64,11 @@ import { RouterModule } from '@angular/router';
         <button mat-flat-button color="primary">Save</button>
         <button mat-stroked-button routerLink="/">Cancel</button>
       </div>
-    </form>`,
+    </form>
+    @if (saving()){
+    <mat-progress-spinner mode="indeterminate" />
+    }
+  `,
   styles: `
     :host {
       padding: 16px;
@@ -83,4 +111,24 @@ import { RouterModule } from '@angular/router';
     }
   `,
 })
-export class AddContactComponent {}
+export class AddContactComponent {
+  apiService = inject(ApiService);
+  router = inject(Router);
+  name = signal('');
+  email = signal('');
+  phone = signal('');
+
+  saving = signal(false);
+
+  async save() {
+    console.log(this.name(), this.email(), this.phone());
+    await this.apiService.addContact({
+      id: '',
+      name: this.name(),
+      email: this.email(),
+      phone: this.phone(),
+    });
+    this.saving.set(false);
+    this.router.navigate(['/']);
+  }
+}
