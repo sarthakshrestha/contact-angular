@@ -1,4 +1,11 @@
-import { Component, inject, signal, resource, computed } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  resource,
+  computed,
+  effect,
+} from '@angular/core';
 import { Contact } from '../../model/contact';
 import { MatListModule } from '@angular/material/list';
 import { ApiService } from '../../services/api.service';
@@ -7,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'delete-dialog',
   template: `
@@ -53,6 +61,11 @@ export class DeleteDialogComponent {}
     </mat-list>
     @if (loading()){
     <mat-progress-spinner mode="indeterminate" /> }
+    <!-- @if(contactsResource.error()){
+    <div>
+      <p>{{ contactsResource.error() }}</p>
+    </div>
+    } -->
   `,
   styleUrl: './contacts-list.component.scss',
 })
@@ -66,8 +79,19 @@ export class ContactsListComponent {
     () => this.contactsResource.isLoading() || this.deleting()
   );
 
+  snackbar = inject(MatSnackBar);
+
   contactsResource = resource({
     loader: () => this.apiService.getContacts(),
+  });
+
+  showError = effect(() => {
+    const error = this.contactsResource.error() as Error;
+    if (error) {
+      this.snackbar.open(error.message, 'Close', {
+        duration: 3000,
+      });
+    }
   });
 
   async deleteContact(id: string) {
